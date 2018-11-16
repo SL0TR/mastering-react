@@ -8,10 +8,10 @@ class Movies extends Component {
    }
 
   deleteMovie = (index) => {
-    let updatedMovieArray = this.state.movies;
-    updatedMovieArray.splice(index, 1);
+    let movies = this.state.movies;
+    movies.splice(index, 1);
     this.setState({
-      movies: updatedMovieArray
+      movies
     })
   }
 
@@ -42,8 +42,8 @@ class Movies extends Component {
     const movieList = this.state.movies.map((movie, i) => {
       return (
         <tr key={movie._id}>
-          <td>{i+1}</td>
-          <td>{movie.title}</td>
+          <th scope="row">{i+1}</th>
+          <td> <strong>{movie.title}</strong></td>
           <td>{movie.genre.name}</td>
           <td>{movie.numberInStock}</td>
           <td>{movie.dailyRentalRate}</td>
