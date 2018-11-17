@@ -13,7 +13,7 @@ class Counter extends Component {
           </div>
           <div className="col-3">
             <button onClick={ () => onIncrement(counter) } className="btn btn-secondary mr-3"><strong>+</strong></button>
-            <button onClick={ () => onDecrement(counter) } className="btn btn-secondary mr-3"><strong>-</strong></button>
+            <button onClick={ () => onDecrement(counter) } className="btn btn-secondary mr-3" disabled={counter.value === 0 ? 'disabled' : ''}><strong>-</strong></button>
             <button onClick={ () => onDelete(counter.id) } className="btn btn-danger mt-2 mb-2"><strong>X</strong></button>
           </div>
         </div>

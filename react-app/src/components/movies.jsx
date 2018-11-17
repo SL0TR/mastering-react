@@ -15,6 +15,14 @@ class Movies extends Component {
     })
   }
 
+  setLike = (index) => {
+    let movies = this.state.movies;
+    movies[index].like = !movies[index].like;
+    this.setState({
+      movies
+    })
+  }
+
   render() {
     return ( 
       <React.Fragment>
@@ -47,12 +55,18 @@ class Movies extends Component {
           <td>{movie.genre.name}</td>
           <td>{movie.numberInStock}</td>
           <td>{movie.dailyRentalRate}</td>
-          <td> <button onClick={() => this.deleteMovie(i)} className="btn btn-danger">Delete</button> </td>
+          <td> <i className={this.getIconClasses(movie)} aria-hidden="true" onClick={ () => this.setLike(i) } ></i> <button onClick={() => this.deleteMovie(i)} className="btn btn-danger">Delete</button> </td>
         </tr>
       )
     })
 
     return movieList;
+  }
+
+  getIconClasses(item) {
+    let classes = "fa mr-4 fa-";
+    classes += (item.like === false) ? "heart-o" : "heart";
+    return classes;
   }
 }
  
