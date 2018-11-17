@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getMovies } from '../services/fakeMovieService';
+import Like from './common/like';
 
 
 class Movies extends Component {
@@ -7,16 +8,17 @@ class Movies extends Component {
     movies: getMovies()
    }
 
-  deleteMovie = (index) => {
-    let movies = this.state.movies;
+  handleDelete = (index) => {
+    let movies = [...this.state.movies];
     movies.splice(index, 1);
     this.setState({
       movies
     })
   }
 
-  setLike = (index) => {
-    let movies = this.state.movies;
+  handleLike = (index) => {
+    let movies = [...this.state.movies];
+    movies[index] = {...movies[index]};
     movies[index].like = !movies[index].like;
     this.setState({
       movies
@@ -55,7 +57,7 @@ class Movies extends Component {
           <td>{movie.genre.name}</td>
           <td>{movie.numberInStock}</td>
           <td>{movie.dailyRentalRate}</td>
-          <td> <i className={this.getIconClasses(movie)} aria-hidden="true" onClick={ () => this.setLike(i) } ></i> <button onClick={() => this.deleteMovie(i)} className="btn btn-danger">Delete</button> </td>
+          <td> <Like liked={movie.like} onClick={ () => this.handleLike(i)} />  <button onClick={() => this.handleDelete(i)} className="btn btn-danger">Delete</button> </td>
         </tr>
       )
     })
@@ -63,11 +65,6 @@ class Movies extends Component {
     return movieList;
   }
 
-  getIconClasses(item) {
-    let classes = "fa mr-4 fa-";
-    classes += (item.like === false) ? "heart-o" : "heart";
-    return classes;
-  }
 }
  
 export default Movies;
