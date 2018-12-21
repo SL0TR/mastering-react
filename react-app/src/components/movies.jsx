@@ -55,15 +55,15 @@ class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  render() {
+  getPagedData = () => {
     const {
       pageSize,
       currentPage,
       movies,
-      genres,
       selectedGenre,
       sortColumn
     } = this.state;
+
     const filteredMovies =
       selectedGenre && selectedGenre._id
         ? movies.filter(m => m.genre._id === selectedGenre._id)
@@ -76,13 +76,30 @@ class Movies extends Component {
     );
     const allMovies = paginate(sorted, currentPage, pageSize);
 
+    return {
+      totalCount: filteredMovies.length,
+      data: allMovies
+    };
+  };
+
+  render() {
+    const {
+      pageSize,
+      currentPage,
+      genres,
+      selectedGenre,
+      sortColumn
+    } = this.state;
+
+    const { totalCount, data: allMovies } = this.getPagedData();
+
     return (
       <div className="row d-flex justify-content-center align-items-start">
         <div className="col-12">
           <p className="text-center lead">
-            {filteredMovies.length === 0
+            {totalCount === 0
               ? "No results to be shown"
-              : `${filteredMovies.length} items are listed below`}
+              : `${totalCount} items are listed below`}
           </p>
         </div>
         <div className="col-2 mt-5">
@@ -101,7 +118,7 @@ class Movies extends Component {
             onSort={this.handleSort}
           />
           <Pagination
-            itemsCount={filteredMovies.length}
+            itemsCount={totalCount}
             pageSize={pageSize}
             onPageChange={this.handlePageChange}
             currentPage={currentPage}
