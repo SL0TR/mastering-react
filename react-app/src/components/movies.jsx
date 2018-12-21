@@ -21,16 +21,21 @@ class Movies extends Component {
     this.setState({ movies: getMovies(), genres });
   }
 
-  handleDelete = index => {
+  getIndex = (movies, movie) => _.findIndex(movies, movie);
+
+  handleDelete = movie => {
     let movies = [...this.state.movies];
-    movies.splice(index, 1);
+    movies.splice(this.getIndex(movies, movie), 1);
     this.setState({
       movies
     });
   };
 
-  handleLike = index => {
+  handleLike = movie => {
     let movies = [...this.state.movies];
+    let index = this.getIndex(movies, movie);
+    console.log(movies[index]);
+
     movies[index] = { ...movies[index] };
     movies[index].like = !movies[index].like;
     this.setState({
