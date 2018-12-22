@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import "./App.css";
 import Movies from "./components/pages/movies";
 import NavBar from "./components/navbar";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Rentals from "./components/pages/rentals";
 import Customers from "./components/pages/customers";
+import NotFound from "./components/pages/notFound";
+import MovieDetails from "./components/movieDetails";
 
 class App extends Component {
   render() {
@@ -13,9 +15,13 @@ class App extends Component {
         <NavBar />
         <main className="container-fluid">
           <Switch>
+            <Route path="/movies/:id" component={MovieDetails} />
             <Route path="/movies" component={Movies} />
             <Route path="/rentals" component={Rentals} />
+            <Route path="/not-found" component={NotFound} />
             <Route path="/customers" component={Customers} />
+            <Redirect exact from="/" to="/movies" />
+            <Redirect to="/not-found" />
           </Switch>
         </main>
       </React.Fragment>
