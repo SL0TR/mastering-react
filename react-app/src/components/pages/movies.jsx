@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { getMovies } from "../services/fakeMovieService";
-import Pagination from "./common/pagination";
-import { paginate } from "../utils/paginate";
-import ListGroup from "./common/listGroup";
-import { getGenres } from "../services/fakeGenreService";
-import MoviesTable from "./moviesTable";
+import { getMovies } from "../../services/fakeMovieService";
+import Pagination from "../common/pagination";
+import { paginate } from "../../utils/paginate";
+import ListGroup from "../common/listGroup";
+import { getGenres } from "../../services/fakeGenreService";
+import MoviesTable from "../moviesTable";
 import _ from "lodash";
 
 class Movies extends Component {
@@ -95,7 +95,10 @@ class Movies extends Component {
 
     return (
       <div className="row d-flex justify-content-center align-items-start">
-        <div className="col-12">
+        <div className="col-12 mt-5">
+          <h1 className="text-center">Movies</h1>
+        </div>
+        <div className="col-12 mt-2">
           <p className="text-center lead">
             {totalCount === 0
               ? "No results to be shown"
