@@ -105,14 +105,14 @@ class Movies extends Component {
               : `${totalCount} items are listed below`}
           </p>
         </div>
-        <div className="col-2 mt-5">
+        <div className="col-lg-2 col-4 mt-5">
           <ListGroup
             items={genres}
             onItemSelect={this.handleGenreSelect}
             selectedItem={selectedGenre}
           />
         </div>
-        <div className="col-7">
+        <div className="col-lg-7 col-8">
           <MoviesTable
             sortColumn={sortColumn}
             movies={allMovies}
