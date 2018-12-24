@@ -8,7 +8,7 @@ import Rentals from "./components/pages/rentals";
 import Customers from "./components/pages/customers";
 import NotFound from "./components/pages/notFound";
 import MovieDetails from "./components/movieDetails";
-import LoginForm from "./components/logginForm";
+import LoginForm from "./components/pages/login";
 
 class App extends Component {
   render() {
