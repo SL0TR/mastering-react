@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import Input from "../common/input";
+import React from "react";
+import Form from "../common/form";
 import Joi from "joi-browser";
 
-class LoginForm extends Component {
+class LoginForm extends Form {
   state = {
-    account: { username: "", password: "" },
+    data: { username: "", password: "" },
     errors: {}
   };
 
@@ -17,49 +17,11 @@ class LoginForm extends Component {
       .label("Password")
   };
 
-  validate = () => {
-    const options = {
-      abortEarly: false
-    };
-
-    const { error } = Joi.validate(this.state.account, this.schema, options);
-
-    if (!error) return null;
-
-    const errors = {};
-    for (let item of error.details) errors[item.path[0]] = item.message;
-    return errors;
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-
-    const errors = this.validate();
-    this.setState({ errors: errors || {} });
-    if (errors) return;
-  };
-
-  validateProperty = ({ name, value }) => {
-    const obj = { [name]: value };
-    const schema = { [name]: this.schema[name] };
-    const { error } = Joi.validate(obj, schema);
-    return error ? error.details[0].message : null;
-  };
-
-  handleChange = ({ currentTarget: input }) => {
-    const errors = { ...this.state.errors };
-    const errorMessage = this.validateProperty(input);
-    if (errorMessage) errors[input.name] = errorMessage;
-    else delete errors[input.name];
-
-    const account = { ...this.state.account };
-    account[input.name] = input.value;
-    this.setState({ account, errors });
+  doSubmit = () => {
+    // do something after the submit
   };
 
   render() {
-    const { account, errors } = this.state;
-
     return (
       <div>
         <div className="row">
@@ -68,28 +30,11 @@ class LoginForm extends Component {
           </div>
         </div>
         <form onSubmit={this.handleSubmit} className="row d-flex">
-          <Input
-            name="username"
-            value={account.username}
-            label="Username"
-            onChange={this.handleChange}
-            error={errors.username}
-          />
-          <Input
-            name="password"
-            value={account.password}
-            label="Password"
-            onChange={this.handleChange}
-            error={errors.password}
-          />
+          {this.renderInput("username", "Username")}
+          {this.renderInput("password", "Password", "password")}
           <div className="col-12 mt-4">
             <div className="row d-flex justify-content-center">
-              <button
-                disabled={this.validate()}
-                className="btn btn-primary col-lg-2 col-4 ml-3"
-              >
-                Submit
-              </button>
+              {this.renderButton("Submit")}
             </div>
           </div>
         </form>
