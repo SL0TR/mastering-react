@@ -4,6 +4,7 @@ import Pagination from "../common/pagination";
 import { paginate } from "../../utils/paginate";
 import ListGroup from "../common/listGroup";
 import { getGenres } from "../../services/fakeGenreService";
+import { Link } from "react-router-dom";
 import MoviesTable from "../moviesTable";
 import _ from "lodash";
 
@@ -104,6 +105,11 @@ class Movies extends Component {
               ? "No results to be shown"
               : `${totalCount} items are listed below`}
           </p>
+        </div>
+        <div className="col-12 d-flex justify-content-center">
+          <Link className="btn btn-primary" to="/movies/new">
+            <strong>Add New Movie +</strong>
+          </Link>
         </div>
         <div className="col-lg-2 col-4 mt-5">
           <ListGroup
