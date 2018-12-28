@@ -18,7 +18,6 @@ class App extends Component {
         <NavBar />
         <main className="container-fluid">
           <Switch>
-            <Route path="/movies/new" component={MovieDetails} />
             <Route path="/movies/:id" component={MovieDetails} />
             <Route path="/movies" component={Movies} />
             <Route path="/login" component={LoginForm} />
