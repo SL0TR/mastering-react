@@ -1,4 +1,7 @@
-import * as genresAPI from "./fakeGenreService";
+// import * as genresAPI from "./genreService";
+import http from "./httpService";
+import { apiUrl } from "../config.json";
+const moviesEndpoint = apiUrl + "/movies";
 
 const movies = [
   {
@@ -77,7 +80,7 @@ const movies = [
 ];
 
 export function getMovies() {
-  return movies;
+  return http.get(moviesEndpoint);
 }
 
 export function getMovie(id) {
@@ -87,7 +90,7 @@ export function getMovie(id) {
 export function saveMovie(movie) {
   let movieInDb = movies.find(m => m._id === movie._id) || {};
   movieInDb.title = movie.title;
-  movieInDb.genre = genresAPI.genres.find(g => g._id === movie.genreId);
+  // movieInDb.genre = genresAPI.genres.find(g => g._id === movie.genreId);
   movieInDb.numberInStock = movie.numberInStock;
   movieInDb.dailyRentalRate = movie.dailyRentalRate;
 
@@ -100,7 +103,5 @@ export function saveMovie(movie) {
 }
 
 export function deleteMovie(id) {
-  let movieInDb = movies.find(m => m._id === id);
-  movies.splice(movies.indexOf(movieInDb), 1);
-  return movieInDb;
+  return http.delete(moviesEndpoint + "/" + id);
 }
