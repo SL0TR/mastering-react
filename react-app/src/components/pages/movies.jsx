@@ -7,11 +7,14 @@ import { getGenres } from "../../services/fakeGenreService";
 import { Link } from "react-router-dom";
 import MoviesTable from "../moviesTable";
 import _ from "lodash";
+import SearchBox from "../common/searchBox";
 
 class Movies extends Component {
   state = {
     movies: getMovies(),
     pageSize: 4,
+    searchQuery: "",
+    selectedGenre: null,
     currentPage: 1,
     genres: [],
     sortColumn: { path: "title", order: "asc" }
@@ -49,7 +52,11 @@ class Movies extends Component {
   };
 
   handleGenreSelect = genre => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    this.setState({ selectedGenre: genre, searchQuery: "", currentPage: 1 });
+  };
+
+  handleSearch = query => {
+    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
 
   handleSort = sortColumn => {
@@ -62,19 +69,25 @@ class Movies extends Component {
       currentPage,
       movies,
       selectedGenre,
-      sortColumn
+      sortColumn,
+      searchQuery
     } = this.state;
 
-    const filteredMovies =
-      selectedGenre && selectedGenre._id
-        ? movies.filter(m => m.genre._id === selectedGenre._id)
-        : movies;
+    let filteredMovies = movies;
+
+    if (searchQuery)
+      filteredMovies = movies.filter(m =>
+        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (selectedGenre && selectedGenre._id)
+      filteredMovies = movies.filter(m => m.genre._id === selectedGenre._id);
 
     const sorted = _.orderBy(
       filteredMovies,
       [sortColumn.path],
       [sortColumn.order]
     );
+
     const allMovies = paginate(sorted, currentPage, pageSize);
 
     return {
@@ -89,7 +102,8 @@ class Movies extends Component {
       currentPage,
       genres,
       selectedGenre,
-      sortColumn
+      sortColumn,
+      searchQuery
     } = this.state;
 
     const { totalCount, data: allMovies } = this.getPagedData();
@@ -110,6 +124,13 @@ class Movies extends Component {
           <Link className="btn btn-primary" to="/movies/new">
             <strong>Add New Movie +</strong>
           </Link>
+        </div>
+        <div className="col-12 mt-5">
+          <div className="row d-flex justify-content-center">
+            <div className="col-lg-4 col-10">
+              <SearchBox value={searchQuery} onChange={this.handleSearch} />
+            </div>
+          </div>
         </div>
         <div className="col-lg-2 col-4 mt-5">
           <ListGroup
