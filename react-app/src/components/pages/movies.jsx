@@ -48,7 +48,6 @@ class Movies extends Component {
   handleLike = movie => {
     let movies = [...this.state.movies];
     let index = this.getIndex(movies, movie);
-    console.log(movies[index]);
 
     movies[index] = { ...movies[index] };
     movies[index].like = !movies[index].like;
