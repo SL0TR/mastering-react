@@ -23,6 +23,7 @@ class LoginForm extends Form {
   doSubmit = async () => {
     try {
       await login(this.state.data);
+      window.location = "/";
     } catch (e) {
       if (e.response && e.response.status === 400) {
         toast.error(e.response.data);

@@ -1,12 +1,32 @@
 // import * as genresAPI from "./genreService";
 import http from "./httpService";
 import { apiUrl } from "../config.json";
-const apiEndpoint = apiUrl + "/auth";
+import jwtDecode from "jwt-decode";
 
-export function login(user) {
+const apiEndpoint = apiUrl + "/auth";
+const tokenKey = "token";
+
+export async function login(user) {
   const { email, password } = user;
-  return http.post(apiEndpoint, {
+  const { data: jwt } = await http.post(apiEndpoint, {
     email,
     password
   });
+  localStorage.setItem(tokenKey, jwt);
+}
+
+export function loginWithJwt(jwt) {
+  localStorage.setItem(tokenKey, jwt);
+}
+
+export function getCurrentUser() {
+  try {
+    return jwtDecode(localStorage.getItem(tokenKey));
+  } catch (e) {
+    return null;
+  }
+}
+
+export function logout() {
+  localStorage.removeItem(tokenKey);
 }
