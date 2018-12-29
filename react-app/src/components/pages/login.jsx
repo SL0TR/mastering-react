@@ -1,24 +1,33 @@
 import React from "react";
 import Form from "../common/form";
 import Joi from "joi-browser";
+import { toast } from "react-toastify";
+import { login } from "../../services/authService";
 
 class LoginForm extends Form {
   state = {
-    data: { username: "", password: "" },
+    data: { email: "", password: "" },
     errors: {}
   };
 
   schema = {
-    username: Joi.string()
+    email: Joi.string()
+      .email()
       .required()
-      .label("Username"),
+      .label("Email"),
     password: Joi.string()
       .required()
       .label("Password")
   };
 
-  doSubmit = () => {
-    // do something after the submit
+  doSubmit = async () => {
+    try {
+      await login(this.state.data);
+    } catch (e) {
+      if (e.response && e.response.status === 400) {
+        toast.error(e.response.data);
+      }
+    }
   };
 
   render() {
@@ -30,7 +39,7 @@ class LoginForm extends Form {
           </div>
         </div>
         <form onSubmit={this.handleSubmit} className="row d-flex">
-          {this.renderInput("username", "Username")}
+          {this.renderInput("email", "Email")}
           {this.renderInput("password", "Password", "password")}
           <div className="col-12 mt-4">
             <div className="row d-flex justify-content-center">

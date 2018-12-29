@@ -1,14 +1,14 @@
 // import * as genresAPI from "./genreService";
 import http from "./httpService";
 import { apiUrl } from "../config.json";
-const moviesEndpoint = apiUrl + "/movies";
+const apiEndpoint = apiUrl + "/movies";
 
 function movieUrl(id) {
-  return `${moviesEndpoint}/${id}`;
+  return `${apiEndpoint}/${id}`;
 }
 
 export function getMovies() {
-  return http.get(moviesEndpoint);
+  return http.get(apiEndpoint);
 }
 
 export function getMovie(id) {
@@ -21,7 +21,7 @@ export function saveMovie(movie) {
     delete body._id;
     return http.put(movieUrl(movie._id), body);
   }
-  return http.post(moviesEndpoint, movie);
+  return http.post(apiEndpoint, movie);
 }
 
 export function deleteMovie(id) {
