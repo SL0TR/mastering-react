@@ -2,7 +2,8 @@ import React from "react";
 import Form from "../common/form";
 import Joi from "joi-browser";
 import { toast } from "react-toastify";
-import { login } from "../../services/authService";
+import { Redirect } from "react-router-dom";
+import { login, getCurrentUser } from "../../services/authService";
 
 class LoginForm extends Form {
   state = {
@@ -23,7 +24,8 @@ class LoginForm extends Form {
   doSubmit = async () => {
     try {
       await login(this.state.data);
-      window.location = "/";
+      const { state } = this.props.location;
+      window.location = state ? state.from.pathname : "/";
     } catch (e) {
       if (e.response && e.response.status === 400) {
         toast.error(e.response.data);
@@ -32,6 +34,7 @@ class LoginForm extends Form {
   };
 
   render() {
+    if (getCurrentUser()) return <Redirect to="/" />;
     return (
       <div>
         <div className="row">
